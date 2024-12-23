@@ -5,7 +5,7 @@
 // Tutorial Class: TT4L
 // Trimester: 2430
 // Member_1: 1211110897 | AFAF FAKHRIAH BINTI MOHD FUAD | EMAIL | PHONE
-// Member_2: 242UC244LQ | ANIQAH NABILAH BINTI AZHAR | EMAIL | PHONE
+// Member_2: 242UC244LQ | ANIQAH NABILAH BINTI AZHAR | aniqah.nabilah.azhar@student.mmu.edu.my | 011-62046219
 // Member_3: 242UC244PT | JASMYNE YAP | EMAIL | PHONE
 // Member_4: 242UC244QB | NUR ALEEZ DANIA BINTI MOHD SHAHRUL AZMAN | nur.aleez.dania@student.mmu.edu.my | 019-7109905	 
 // *********************************************************
