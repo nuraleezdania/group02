@@ -44,9 +44,19 @@ bool has_substring(const string& line, const string& substring)
 
 }
 
-void create_output_screen_and_file()
+void create_output_screen_and_file(const string& fileOutputName, const string& content)
 {
-    
+    cout<< content <<endl; //output content to screen
+
+    ofstream outputFile(fileOutputName); //opening output file
+    if(!outputFile.is_open())
+    {
+        cout<< "Error opening output file"<<endl;
+        return;
+    }
+
+    outputFile << content << endl; //print content to output file
+    outputFile.close(); //close output file
 }
 
 void create_database()
@@ -108,17 +118,17 @@ int main()
         //cout << line << endl;
         if ( has_substring(line, "CREATE TABLE" ))
         {
-            cout << "? CREATE TABLE" << endl;
+            cout << "> CREATE TABLE" << endl;
         }
         else if (has_substring(line, "CREATE") )
         {
-            fileOutputName = "?";
+            fileOutputName = "fileOutput1.txt";
             cout << "> CREATE " << fileOutputName << ";" << endl;
         }
         else if ( has_substring(line, "DATABASES;") )
         {
             cout << "> " << line << endl;
-            cout << "? "<< endl;
+            cout << fileInputName << endl;
         }
         else if ( has_substring(line, "?1") )
         {
@@ -153,6 +163,8 @@ int main()
     }
 
     cout << endl;
+
+    create_output_screen_and_file();
 
     fileInput.close();
     fileOutput.close();
