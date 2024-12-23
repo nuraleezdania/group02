@@ -26,6 +26,22 @@ struct Table {
 vector<Table> database;
 
 //function definitions
+//function to output content both screen and into output file
+void create_output_screen_and_file(const string& fileOutputName, const string& content){
+    cout<< content <<endl; //output content to screen
+
+    ofstream outputFile(fileOutputName); //opening output file
+    if(!outputFile.is_open())
+    {
+        cout<< "Error opening output file"<<endl;
+        return;
+    }
+
+    outputFile << content << endl; //print content to output file
+    outputFile.close(); //close output file
+
+}
+
 //function to create database
 void create_database(const string& db_name) {
 }
@@ -125,17 +141,20 @@ int main() {
     fileInput1.close();
 
     //fileOutputName = "fileOutput1.txt"; //incorrect
-    //cout <, "> CREATE " << fileOutputName << ";" << endl;
+    
+    cout << "> CREATE " << fileOutputName << ";" << endl;
 
     cout << "> DATABASES;" << endl;
     cout << fileInputName << endl;
-
-    return 0;
 
     {
         getline(fileInput1, line);
         cout << line;
     }
     cout << endl;
+
+    void create_output_screen_and_file();
+
+    return 0;
 
 }
