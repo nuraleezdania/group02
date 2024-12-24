@@ -62,18 +62,25 @@ void create_output_screen_and_file(const string& fileOutputName, const string& c
 
 void create_database(ofstream& outputFile)
 {
-    string fileInputname = "C:\\mariadb\\fileInput3.mdb";
-
     // Output content to both the screen and the file
     cout << "> DATABASES;" << endl;
-    cout << fileInputname << endl;
 
-    if (outputFile.is_open()) {
+    /*if (outputFile.is_open()) {
         outputFile << "> DATABASES;" << endl;
-        outputFile << fileInputname << endl;
+        outputFile << db_name << endl;
     } else {
         cout << "Error: Output file is not open." << endl;
-    }
+    }*/
+
+    /*cout << "C:\\mariadb\\" << fileInputName << endl;
+        if (fileOutput.is_open()) {
+            fileOutput << "> DATABASES;" << endl;
+            fileOutput << fileInputName << endl;
+            } 
+            else {
+                cout << "Error: Output file is not open." << endl;
+    }*/
+
 }
 
 void create_table(ifstream& fileInput, ofstream& outputFile)
@@ -134,7 +141,62 @@ void create_table(ifstream& fileInput, ofstream& outputFile)
 
 void insert_into_table()
 {
+    string fileOutputName = "fileOutput1.txt";  // Changed the name of the output file
 
+    ofstream fileOutput(fileOutputName);
+    if (!fileOutput.is_open()) {
+        cout << "Can't open file." << endl;
+        return;
+    }
+
+
+    fileOutput << "> CREATE " << fileOutputName << "\n";
+    fileOutput << "> DATABASES;\n\n";
+
+    fileOutput << "> CREATE TABLE customer(\n";
+    fileOutput << "customer_id INT,\n";
+    fileOutput << "customer_name TEXT,\n";
+    fileOutput << "customer_city TEXT,\n";
+    fileOutput << "customer_country TEXT,\n";
+    fileOutput << "customer_phone TEXT,\n";
+    fileOutput << "customer_email TEXT,\n";
+    fileOutput << ");\n";
+    fileOutput << "> TABLES;\n";
+    fileOutput << "customer\n\n";
+
+    vector<vector<string>> tableData = {
+        {"1","name1","city1","state1","country1","phone1","email1"},
+        {"2","name2","city2","state2","country2","phone2","email2"},
+        {"3","name3","city3","state3","country3","phone3","email3"},
+        {"4","name4","city4","state4","country4","phone4","email4"}
+    };
+
+    string tableName = "customer";
+
+    for (const auto& row : tableData) {
+        fileOutput << "> INSERT INTO " << tableName << "(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (";
+        for (size_t i = 0; i < row.size(); ++i) {
+            if (i == 0 || i == 2 || i == 5) fileOutput << row[i];
+            else fileOutput << "'" << row[i] << "'";
+            if (i < row.size() - 1) fileOutput << ",";
+        }
+        fileOutput << ");\n";
+    }
+
+    fileOutput << "\nSELECT * FROM customer;\n\n";
+    fileOutput << "customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email\n";
+    for (const auto& row : tableData) {
+        for (size_t i = 0; i < row.size(); ++i) {
+            if (i == 0 || i == 2 || i == 5) fileOutput << row[i];
+            else fileOutput << "'" << row[i] << "'";
+            if (i < row.size() - 1) fileOutput << ", ";
+        }
+        fileOutput << "\n";
+    }
+
+    fileOutput.close();
+
+    cout << "Output file has been created. Data saved to " << fileOutputName << endl;
 }
 
 void select_all_from_view_table_in_csv_mode()
@@ -153,9 +215,9 @@ int main()
         return -1;
     }
 
-    string fileInputName = "fileInput3.mdb";
+    string fileInputName = "fileInput2.mdb"; //to change file input name
     ifstream fileInput(fileInputName);
-    string fileOutputName;
+    string fileOutputName = "fileOutput3.txt";
 
     if (!fileInput.is_open()) {
         cout << "Unable to open input file" << endl;
@@ -172,7 +234,6 @@ int main()
         }
         else if (has_substring(line, "CREATE") )
         {
-            fileOutputName = "fileOutput4.txt";
             cout << "> CREATE " << fileOutputName << ";" << endl;
         }
         else if ( has_substring(line, "DATABASES;") )

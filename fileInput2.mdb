@@ -1,4 +1,7 @@
-> CREATE TABLE customer(
+CREATE fileOutput2.txt;
+DATABASES;
+
+CREATE TABLE customer(
 customer_id INT,
 customer_name TEXT,
 customer_city TEXT,
@@ -6,9 +9,11 @@ customer_state TEXT,
 customer_country TEXT,
 customer_phone TEXT,
 customer_email TEXT
+);
+
 INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (1,'mimi','st mary','london','uk','445842554','mimi@gmail.com');
 INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (2,'dayana','klang','selangor','malaysia','0152346859','dayana@gmail.com');
 INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (3,'jasMyne','beijing','-','china','866584459','myne14@gmail.com');
 INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'apapp','kanto','tokyo','japan','815694327','apaap@gmail.com');
+
 SELECT * FROM customer;
-);
