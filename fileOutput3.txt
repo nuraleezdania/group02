@@ -1,0 +1,26 @@
+> CREATE fileOutput3.txt
+>DATABASES;
+
+>CREATE TABLE employee(
+employee_id INT,
+employee_name TEXT,
+employee_age INT,
+job_title TEXT,
+department TEXT,
+salary INT,
+);
+>TABLES;
+employees
+
+> INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (001,'Aleez',27,'Marketing Manager','Marketing',4700);
+> INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (002,'Aniqah',20,'HR Manager','Human Resources',6320);
+> INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (003,'Jasmyne',35,'Accountant','Finance',5000);
+> INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (004,'Afaf',24,'Software Engineer','IT',7560);
+
+SELECT * FROM employees;
+
+employee_id, employee_name, employee_age, job_title, department, salary
+001, 'Aleez', 27, 'Marketing Manager', 'Marketing', 4700
+002, 'Aniqah', 20, 'HR Manager', 'Human Resources', 6320
+003, 'Jasmyne', 35, 'Accountant', 'Finance', 5000
+004, 'Afaf', 24, 'Software Engineer', 'IT', 7560
