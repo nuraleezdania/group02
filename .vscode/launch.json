@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/aleezdania/A2_CCP6114_2430_TT4L_G02_Afaf_Aniqah_JasmyneYap_NurAleezL/group02",
+      "program": "/Users/aleezdania/A2_CCP6114_2430_TT4L_G02_Afaf_Aniqah_JasmyneYap_NurAleezL/group02/build/Debug/outDebug"
+    }
+  ]
+}
