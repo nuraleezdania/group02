@@ -60,18 +60,19 @@ void create_output_screen_and_file(const string& fileOutputName, const string& c
     outputFile.close(); //close output file
 }
 
-void create_database()
+void create_database(ofstream& outputFile)
 {
-    string fileInputname = "C:\\A2_CCP6114_2430_TT4L_G02_Afaf_Aniqah_JasmyneYap_NurAleezL\\fileInput1.mdb"; // Adjust based on the file being processed
-    ofstream outputFile("fileOutput1.txt");
+    string fileInputname = "C:\\mariadb\\fileInput1.mdb";
 
+    // Output content to both the screen and the file
     cout << "> DATABASES;" << endl;
     cout << fileInputname << endl;
 
     if (outputFile.is_open()) {
         outputFile << "> DATABASES;" << endl;
         outputFile << fileInputname << endl;
-        outputFile.close();
+    } else {
+        cout << "Error: Output file is not open." << endl;
     }
 }
 
@@ -176,11 +177,7 @@ int main()
         }
         else if ( has_substring(line, "DATABASES;") )
         {
-            stringstream content;
-            content << "> " << line << endl;
-            content << "C:\\mariadb\\"<< fileInputName << endl;
-            fileOutput << "> " << line << endl;
-            fileOutput << fileInputName << endl;
+            create_database(fileOutput);
         }
         else if ( has_substring(line, "?1") )
         {
