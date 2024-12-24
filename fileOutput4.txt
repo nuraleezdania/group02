@@ -1,0 +1,8 @@
+> CREATE TABLE customer(
+employee_id INT
+employee_name TEXT
+employee_age INT
+job_title TEXT
+department TEXT
+salary INT
+);

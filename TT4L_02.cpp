@@ -62,7 +62,7 @@ void create_output_screen_and_file(const string& fileOutputName, const string& c
 
 void create_database(ofstream& outputFile)
 {
-    string fileInputname = "C:\\mariadb\\fileInput1.mdb";
+    string fileInputname = "C:\\mariadb\\fileInput3.mdb";
 
     // Output content to both the screen and the file
     cout << "> DATABASES;" << endl;
@@ -147,13 +147,13 @@ int main()
 {
     // Declare and open the output file before passing it to the function
     ofstream fileOutput;
-    fileOutput.open("fileOutput1.txt");  // Open output file for writing
+    fileOutput.open("fileOutput4.txt");  // Open output file for writing
     if (!fileOutput.is_open()) {
         cout << "Error opening output file" << endl;
         return -1;
     }
 
-    string fileInputName = "fileInput1.mdb";
+    string fileInputName = "fileInput3.mdb";
     ifstream fileInput(fileInputName);
     string fileOutputName;
 
@@ -172,7 +172,7 @@ int main()
         }
         else if (has_substring(line, "CREATE") )
         {
-            fileOutputName = "fileOutput1.txt";
+            fileOutputName = "fileOutput4.txt";
             cout << "> CREATE " << fileOutputName << ";" << endl;
         }
         else if ( has_substring(line, "DATABASES;") )
