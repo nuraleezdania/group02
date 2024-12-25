@@ -17,4 +17,4 @@ INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,cust
 INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (003,'Jasmyne','Ipoh','Perak','India','0165423325','jasmyno@yahoo.com'); 
 INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (004,'Afaf','Seremban','Megeri Sembilan','Afrika','0194485523','afafo@yahoo.com'); 
 
-SELECT * FROM employees;
+SELECT * FROM customer;
