@@ -25,10 +25,10 @@ using namespace std;
 //function prototypes
 bool has_substring(const string& line, const string& substring);
 void create_output_screen_and_file(const string& fileOutputName, const string& content);
-void create_database();
+void create_database(ofstream& outputFile);
 void create_table(ifstream& fileInput, ostream& outputFile);
-void insert_into_table();
-void select_all_from_view_table_in_csv_mode();
+void insert_into_table(const string& line, string& outputScreenFile, string& insertStatement);
+void select_all_from_view_table_in_csv_mode(const vector<vector<string>>& selectData, string& outputScreenFile);
 
 
 //function definitions
@@ -64,7 +64,8 @@ void create_output_screen_and_file(const string& fileOutputName, const string& c
 //Database function
 void create_database(ofstream& outputFile) 
 {
-    string db_name = "C:\\mariadb\\fileInput1.mdb"; //database name
+    string db_name = "C:\\mariadb\\fileInput1.mdb"; //database name ( change if needed)
+     cout << db_name << endl;
 
     if (outputFile.is_open()) {         //open in output file
         outputFile << "> DATABASES;" << endl;
@@ -271,30 +272,34 @@ int main()
     string line;
     while (getline(fileInput, line)) {
 
-        if (line.find("> CREATE") != string::npos) {
-            continue;  // Skip this line and move to the next iteration
-        }
-
         if(line.empty()) {
             continue;
         }        
         
         cout << "> " << line << endl; //
 
-        if (has_substring(line, "CREATE TABLE")) {
+        if (has_substring(line, "CREATE TABLE")) 
+        {
             create_table(fileInput, fileOutput);
         } 
-        else if (has_substring(line, "DATABASES;")) {
+        else if (has_substring(line, "CREATE")) 
+        {
+
+        } 
+        else if (has_substring(line, "DATABASES")) 
+        {
             create_database(fileOutput);
         } 
-        else if (has_substring(line, "SELECT * FROM")) {
+        else if (has_substring(line, "SELECT * FROM")) 
+        {
             select_all_from_view_table_in_csv_mode(fileInput, fileOutput);
         } 
-        else if (has_substring(line, "INSERT INTO")) {
+        else if (has_substring(line, "INSERT INTO")) 
+        {
             insert_into_table(fileInput, fileOutput);
         }
         else {
-            cout << "Error message: Invalid input command -> " << line << endl;
+            cout << "Invalid input command -> " << line << endl; //Print error
         }
     }
     cout << endl;
