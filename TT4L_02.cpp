@@ -64,12 +64,9 @@ void create_output_screen_and_file(const string& fileOutputName, const string& c
 //Database function
 void create_database(ofstream& outputFile) 
 {
-    string db_name = "C:\\mariadb\\fileInput1.mdb"; //database name ( change if needed)
-     cout << db_name << endl;
 
     if (outputFile.is_open()) {         //open in output file
         outputFile << "> DATABASES;" << endl;
-        outputFile << db_name << endl;
     } else {
         cout << "Error opening output file" << endl; //Message if the output file cannot open
     }
@@ -254,7 +251,7 @@ int main()
         return -1;
     }
 
-    string fileInputName = "fileInput1.mdb"; //Name of the input file (can be change if needed)
+    string fileInputName = "fileInput3.mdb"; //Name of the input file (can be change if needed)
     ifstream fileInput(fileInputName);  //Open the input file for reading
     string fileOutputName = "fileOutput1.txt";  //Name of the output file
 
@@ -284,7 +281,7 @@ int main()
         } 
         else if (has_substring(line, "CREATE")) 
         {
-
+            
         } 
         else if (has_substring(line, "DATABASES")) 
         {

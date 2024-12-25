@@ -1,6 +1,13 @@
 > CREATE fileOutput1.txt
 > DATABASES;
-C:\mariadb\fileInput1.mdb
-> INSERT INTO customer VALUES
-(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email);
-> INSERT INTO customer VALUES
+> CREATE TABLE customer(
+employee_id INT
+employee_name TEXT
+employee_age INT
+job_title TEXT
+department TEXT
+salary INT
+);
+> INSERT INTO employees VALUES
+(employee_id, employee_name, employee_age, job_title, department, salary);
+> INSERT INTO employees VALUES
