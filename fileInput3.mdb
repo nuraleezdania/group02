@@ -1,3 +1,6 @@
+CREATE fileOutput3.txt;
+DATABASES;
+
 CREATE TABLE employees (
 employee_id INT
 employee_name TEXT

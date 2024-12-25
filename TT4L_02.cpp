@@ -45,6 +45,7 @@ bool has_substring(const string& line, const string& substring)
 
 }
 
+
 void create_output_screen_and_file(const string& fileOutputName, const string& content)
 {
     cout<< content <<endl; //output content to screen
@@ -60,27 +61,19 @@ void create_output_screen_and_file(const string& fileOutputName, const string& c
     outputFile.close(); //close output file
 }
 
-void create_database(ofstream& outputFile)
+//Database function
+void create_database(ofstream& outputFile) 
 {
-    // Output content to both the screen and the file
-    cout << "> DATABASES;" << endl;
+    string db_name = "C:\\mariadb\\fileInput1.mdb"; //database name
 
-    /*if (outputFile.is_open()) {
+    cout << "> DATABASES;\n" << db_name << endl;
+
+    if (outputFile.is_open()) {         //open in output file
         outputFile << "> DATABASES;" << endl;
         outputFile << db_name << endl;
     } else {
-        cout << "Error: Output file is not open." << endl;
-    }*/
-
-    /*cout << "C:\\mariadb\\" << fileInputName << endl;
-        if (fileOutput.is_open()) {
-            fileOutput << "> DATABASES;" << endl;
-            fileOutput << fileInputName << endl;
-            } 
-            else {
-                cout << "Error: Output file is not open." << endl;
-    }*/
-
+        cout << "Output file cannot open." << endl; //Message if the output file cannot open
+    }
 }
 
 void create_table(ifstream& fileInput, ofstream& outputFile)
@@ -199,9 +192,51 @@ void insert_into_table()
     cout << "Output file has been created. Data saved to " << fileOutputName << endl;
 }
 
-void select_all_from_view_table_in_csv_mode()
-{
+void select_all_from_view_table_in_csv_mode(ifstream& fileInput, ofstream& fileOutput) {
+    string line;
+    vector<string> headers;
+    vector<vector<string>> rows;
 
+    while (getline(fileInput, line)) {
+        if (has_substring(line, "SELECT * FROM")) {
+            getline(fileInput, line); // Read the headers
+            stringstream ss(line);
+            string header;
+            while (getline(ss, header, ',')) {
+                headers.push_back(header);
+            }
+
+            while (getline(fileInput, line)) {
+                if (line.empty()) break;
+                stringstream rowStream(line);
+                vector<string> row;
+                string value;
+                while (getline(rowStream, value, ',')) {
+                    row.push_back(value);
+                }
+                rows.push_back(row);
+            }
+            break;
+        }
+    }
+
+    if (fileOutput.is_open()) {
+        for (const auto& header : headers) {
+            fileOutput << header;
+            if (&header != &headers.back()) fileOutput << ",";
+        }
+        fileOutput << "\n";
+
+        for (const auto& row : rows) {
+            for (const auto& value : row) {
+                fileOutput << value;
+                if (&value != &row.back()) fileOutput << ",";
+            }
+            fileOutput << "\n";
+        }
+    } else {
+        cout << "Error opening output file" << endl;
+    }
 }
 
 //Main function
@@ -215,15 +250,21 @@ int main()
         return -1;
     }
 
-    string fileInputName = "fileInput2.mdb"; //to change file input name
+    string fileInputName = "fileInput1.mdb"; //to change file input name
     ifstream fileInput(fileInputName);
-    string fileOutputName = "fileOutput3.txt";
+    string fileOutputName = "fileOutput1.txt";
 
     if (!fileInput.is_open()) {
         cout << "Unable to open input file" << endl;
         return -1;
     }
 
+    cout << "> CREATE " << fileOutputName << ";" << endl;
+    if (fileOutput.is_open()) {
+        fileOutput << "> CREATE " << fileOutputName << "\n";
+    } else {
+        cout << "Output file cannot open." << endl;
+    }
     string line;
     while( getline(fileInput, line ))
     {
@@ -232,17 +273,13 @@ int main()
         {
             create_table(fileInput,fileOutput);
         }
-        else if (has_substring(line, "CREATE") )
-        {
-            cout << "> CREATE " << fileOutputName << ";" << endl;
-        }
         else if ( has_substring(line, "DATABASES;") )
         {
             create_database(fileOutput);
         }
-        else if ( has_substring(line, "?1") )
+        else if ( has_substring(line, "SELECT * FROM") )
         {
-            cout << "?1" << endl;
+            select_all_from_view_table_in_csv_mode(fileInput, fileOutput);
         }
         else if ( has_substring(line, "?2") )
         {
