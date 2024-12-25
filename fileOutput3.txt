@@ -1,23 +1,26 @@
 > CREATE fileOutput3.txt
 >DATABASES;
 
->CREATE TABLE employee(
-employee_id INT,
-employee_name TEXT,
-employee_age INT,
-job_title TEXT,
-department TEXT,
-salary INT,
+>CREATE TABLE customer(
+customer_id INT,
+customer_name TEXT,
+customer_city TEXT,
+customer_state TEXT,
+customer_country TEXT,
+customer_phone TEXT,
+customer_email TEXT
 );
 >TABLES;
-employees
+customer
 
 > INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (001,'Aleez',27,'Marketing Manager','Marketing',4700);
 > INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (002,'Aniqah',20,'HR Manager','Human Resources',6320);
 > INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (003,'Jasmyne',35,'Accountant','Finance',5000);
 > INSERT INTO employees(employee_id, employee_name, employee_age, job_title, department, salary) VALUES (004,'Afaf',24,'Software Engineer','IT',7560);
 
-SELECT * FROM employees;
+
+
+SELECT * FROM customer;
 
 employee_id, employee_name, employee_age, job_title, department, salary
 001, 'Aleez', 27, 'Marketing Manager', 'Marketing', 4700
