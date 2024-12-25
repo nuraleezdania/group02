@@ -66,13 +66,11 @@ void create_database(ofstream& outputFile)
 {
     string db_name = "C:\\mariadb\\fileInput1.mdb"; //database name
 
-    cout << "> DATABASES;\n" << db_name << endl;
-
     if (outputFile.is_open()) {         //open in output file
         outputFile << "> DATABASES;" << endl;
         outputFile << db_name << endl;
     } else {
-        cout << "Output file cannot open." << endl; //Message if the output file cannot open
+        cout << "Error opening output file" << endl; //Message if the output file cannot open
     }
 }
 
@@ -132,64 +130,69 @@ void create_table(ifstream& fileInput, ofstream& outputFile)
 }
 
 
-void insert_into_table()
+void insert_into_table(ifstream& fileInput, ofstream& fileOutput)
 {
-    string fileOutputName = "fileOutput1.txt";  // Changed the name of the output file
+    string line;
 
-    ofstream fileOutput(fileOutputName);
-    if (!fileOutput.is_open()) {
-        cout << "Can't open file." << endl;
-        return;
-    }
+    // To read the INSERT INTO line to get the table name
+    while (getline(fileInput, line))
+    {
+        if (has_substring(line, "INSERT INTO"))
+        {
+            // To find the table name based on INSERT INTO statement.
+            size_t pos = line.find("INSERT INTO");
+            size_t startPos = pos + 11; // Skip "INSERT INTO"
+            size_t endPos = line.find("(", startPos);
+            string tableName = line.substr(startPos, endPos - startPos);
 
+            // Trim any leading or trailing spaces
+            tableName.erase(0, tableName.find_first_not_of(" "));
+            tableName.erase(tableName.find_last_not_of(" ") + 1);
 
-    fileOutput << "> CREATE " << fileOutputName << "\n";
-    fileOutput << "> DATABASES;\n\n";
+            // Output the table name
+            fileOutput << "> INSERT INTO " << tableName << " VALUES" << endl;
+            cout << "> INSERT INTO " << tableName << " VALUES" << endl;
 
-    fileOutput << "> CREATE TABLE customer(\n";
-    fileOutput << "customer_id INT,\n";
-    fileOutput << "customer_name TEXT,\n";
-    fileOutput << "customer_city TEXT,\n";
-    fileOutput << "customer_country TEXT,\n";
-    fileOutput << "customer_phone TEXT,\n";
-    fileOutput << "customer_email TEXT,\n";
-    fileOutput << ");\n";
-    fileOutput << "> TABLES;\n";
-    fileOutput << "customer\n\n";
+            while (getline(fileInput, line))
+            {
+                if (line.find(");") != string::npos)
+                {
+                    size_t start = line.find("(");
+                    size_t end = line.find(")");
 
-    vector<vector<string>> tableData = {
-        {"1","name1","city1","state1","country1","phone1","email1"},
-        {"2","name2","city2","state2","country2","phone2","email2"},
-        {"3","name3","city3","state3","country3","phone3","email3"},
-        {"4","name4","city4","state4","country4","phone4","email4"}
-    };
+                    if (start != string::npos && end != string::npos)
+                    {
+                        // To extract the values
+                        string values = line.substr(start + 1, end - start - 1);
 
-    string tableName = "customer";
+                        // Print out the values.
+                        fileOutput << "(" << values << ");" << endl;
+                        cout << "(" << values << ");" << endl;
+                    }
+                    break;  // Exit after the INSERT statement ends.
+                }
+                else
+                {
+                    size_t start = line.find("(");
+                    size_t end = line.find(")");
 
-    for (const auto& row : tableData) {
-        fileOutput << "> INSERT INTO " << tableName << "(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (";
-        for (size_t i = 0; i < row.size(); ++i) {
-            if (i == 0 || i == 2 || i == 5) fileOutput << row[i];
-            else fileOutput << "'" << row[i] << "'";
-            if (i < row.size() - 1) fileOutput << ",";
+                    if (start != string::npos && end != string::npos)
+                    {
+                        // To extract the values
+                        string values = line.substr(start + 1, end - start - 1);
+
+                        // Print out the values.
+                        fileOutput << "(" << values << ");" << endl;
+                        cout << "(" << values << ");" << endl;
+                    }
+                }
+            }
         }
-        fileOutput << ");\n";
-    }
-
-    fileOutput << "\nSELECT * FROM customer;\n\n";
-    fileOutput << "customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email\n";
-    for (const auto& row : tableData) {
-        for (size_t i = 0; i < row.size(); ++i) {
-            if (i == 0 || i == 2 || i == 5) fileOutput << row[i];
-            else fileOutput << "'" << row[i] << "'";
-            if (i < row.size() - 1) fileOutput << ", ";
-        }
-        fileOutput << "\n";
     }
 
     fileOutput.close();
 
-    cout << "Output file has been created. Data saved to " << fileOutputName << endl;
+    cout << "Output file has been created. Data saved to the output file." << endl;
 }
 
 void select_all_from_view_table_in_csv_mode(ifstream& fileInput, ofstream& fileOutput) {
@@ -244,81 +247,60 @@ int main()
 {
     // Declare and open the output file before passing it to the function
     ofstream fileOutput;
-    fileOutput.open("fileOutput4.txt");  // Open output file for writing
+    fileOutput.open("fileOutput1.txt");  // Open output file for writing
     if (!fileOutput.is_open()) {
         cout << "Error opening output file" << endl;
         return -1;
     }
 
-    string fileInputName = "fileInput1.mdb"; //to change file input name
-    ifstream fileInput(fileInputName);
-    string fileOutputName = "fileOutput1.txt";
+    string fileInputName = "fileInput1.mdb"; //Name of the input file (can be change if needed)
+    ifstream fileInput(fileInputName);  //Open the input file for reading
+    string fileOutputName = "fileOutput1.txt";  //Name of the output file
 
-    if (!fileInput.is_open()) {
-        cout << "Unable to open input file" << endl;
-        return -1;
+    if (!fileInput.is_open()) {     //To check if the input file opened successfully
+        cout << "Error opening input file" << endl; //Print error message
+        return -1; //Exit the program with an error code
     }
 
-    cout << "> CREATE " << fileOutputName << ";" << endl;
-    if (fileOutput.is_open()) {
+    //Print the creation of the output file
+    if (fileOutput.is_open()) { //Verify the output file is open
         fileOutput << "> CREATE " << fileOutputName << "\n";
     } else {
-        cout << "Output file cannot open." << endl;
+        cout << "Error opening output file" << endl;
     }
     string line;
-    while( getline(fileInput, line ))
-    {
-        //cout << line << endl;
-        if ( has_substring(line, "CREATE TABLE" ))
-        {
-            create_table(fileInput,fileOutput);
+    while (getline(fileInput, line)) {
+
+        if (line.find("> CREATE") != string::npos) {
+            continue;  // Skip this line and move to the next iteration
         }
-        else if ( has_substring(line, "DATABASES;") )
-        {
+
+        if(line.empty()) {
+            continue;
+        }        
+        
+        cout << "> " << line << endl; //
+
+        if (has_substring(line, "CREATE TABLE")) {
+            create_table(fileInput, fileOutput);
+        } 
+        else if (has_substring(line, "DATABASES;")) {
             create_database(fileOutput);
-        }
-        else if ( has_substring(line, "SELECT * FROM") )
-        {
+        } 
+        else if (has_substring(line, "SELECT * FROM")) {
             select_all_from_view_table_in_csv_mode(fileInput, fileOutput);
+        } 
+        else if (has_substring(line, "INSERT INTO")) {
+            insert_into_table(fileInput, fileOutput);
         }
-        else if ( has_substring(line, "?2") )
-        {
-            cout << "?2" << endl;
+        else {
+            cout << "Error message: Invalid input command -> " << line << endl;
         }
-        else if ( has_substring(line, "?3") )
-        {
-            cout << "?3" << endl;
-        }
-        else if ( has_substring(line, "?4") )
-        {
-            cout << "?4" << endl;
-        }
-        else if ( has_substring(line, "?5") )
-        {
-            cout << "?5" << endl;
-        }
-        else if ( has_substring(line, "?6") )
-        {
-            cout << "?6" << endl;
-        }
-/*      else
-        {
-            cout << "Error message: Invalid input command" << endl;
-        }
-        */
-
     }
-
     cout << endl;
 
     fileInput.close();
     fileOutput.close();
-
-    //fileOutputName = "fileOutput1.txt"; //incorrect
-    //cout << "> CREATE " << fileOutputName << ";" << endl;
-
-    //cout << "> DATABASES;" << endl;
-    //cout << fileInputName << endl;
 
     return 0;
 }
